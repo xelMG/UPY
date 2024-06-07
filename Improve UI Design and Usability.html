@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Validator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .feedback {
+            margin-top: 10px;
+            color: red;
+        }
+        .valid {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Password Validator</h2>
+        <input type="password" id="password" placeholder="Enter your password">
+        <button onclick="validatePassword()">Validate</button>
+        <div id="feedback" class="feedback"></div>
+    </div>
+
+    <script>
+        function validatePassword() {
+            var password = document.getElementById('password').value;
+            var feedback = document.getElementById('feedback');
+            // Call to Python function here (via backend API) for validation
+            // For simplicity, we'll mock the response
+            var response = detailed_password_feedback(password); // Mocked function
+            feedback.innerHTML = response.join('<br>');
+        }
+
+        // Mocked function for demonstration
+        function detailed_password_feedback(password) {
+            var feedback = [];
+            if (password.length < 8) {
+                feedback.push("Password must be at least 8 characters long.");
+            }
+            if (!/[A-Z]/.test(password)) {
+                feedback.push("Password should contain at least one uppercase letter.");
+            }
+            if (!/[a-z]/.test(password)) {
+                feedback.push("Password should contain at least one lowercase letter.");
+            }
+            if (!/[0-9]/.test(password)) {
+                feedback.push("Password should contain at least one number.");
+            }
+            if (!/[\W_]/.test(password)) {
+                feedback.push("Password should contain at least one special character.");
+            }
+            if (feedback.length === 0) {
+                feedback.push("Password is valid and strong.");
+                feedback[0] = '<span class="valid">' + feedback[0] + '</span>';
+            }
+            return feedback;
+        }
+    </script>
+</body>
+</html>
